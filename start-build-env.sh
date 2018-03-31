@@ -21,8 +21,10 @@ cd "$(dirname "$0")" # connect to root
 
 docker build -t hadoop-build dev-support/docker
 
-if [ "$(uname -s)" = "Linux" ]; then
-  USER_NAME=${SUDO_USER:=$USER}
+system="$(uname -s)"
+
+if [ "$system" = "Linux" ] || [ "${system:0:5}" = "MINGW" ]; then
+  USER_NAME=${SUDO_USER:=${USER:=$USERNAME}}
   USER_ID=$(id -u "${USER_NAME}")
   GROUP_ID=$(id -g "${USER_NAME}")
   # man docker-run
